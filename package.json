@@ -1,6 +1,6 @@
 {
-  "name": "node-netflowv9",
-  "version": "0.2.16",
+  "name": "@bettercorp/node-netflowv9",
+  "version": "0.3.1",
   "description": "NetFlow Version 1,5,7,9 compatible library for Node.JS. It also support NetFlow v9 options template & data",
   "main": "netflowv9.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/delian/node-netflowv9.git"
+    "url": "https://github.com/BetterCorp/node-netflowv9.git"
   },
   "keywords": [
     "netflow",
@@ -18,10 +18,10 @@
     "node.js",
     "javascript"
   ],
-  "author": "Delian Delchev <delian.delchev@gmail.com> (http://deliantech.blogspot.com/)",
+  "author": "Delian Delchev <delian.delchev@gmail.com> (http://deliantech.blogspot.com/), Mathew Heard (https://github.com/splitice)",
   "license": "GPLv2",
   "bugs": {
-    "url": "https://github.com/delian/node-netflowv9/issues"
+    "url": "https://github.com/BetterCorp/node-netflowv9/issues"
   },
   "dependencies": {
     "asynchronous-emitter": "^0.1.0",
@@ -29,7 +29,7 @@
     "debug": "^4.1.0",
     "highwayhash": "^2.5.0"
   },
-  "homepage": "https://github.com/delian/node-netflowv9",
+  "homepage": "https://github.com/BetterCorp/node-netflowv9",
   "devDependencies": {
     "benny": "^3.6.14",
     "chai": "^4.2.0",
