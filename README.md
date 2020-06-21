@@ -1,25 +1,24 @@
 node-netflowv9
 ==============
 
-NetFlow Version 1,5,7,9 library for Node.JS
-NetFlow Version 10 (IPFix) is next (a lot of the IPFIX types are implemented already)!
+NetFlow Version 9 library for Node.JS
 
-The library is still under development, please be careful! It has been tested with Cisco IOS XR and IPv4 although it must work with IPv6 too! Please log problems in the issues section!
+The library is still under development, please be careful! It has been tested with Cisco IOS XR, IPv4 and Mikrotik although it must work with IPv6 too! Please log problems in the issues section!
 
 ## Usage
 
 The usage of the netflowv9 collector library is very very simple. You just have to do something like this:
 
 
-    var Collector = require('node-netflowv9');
+    var Collector = require('@bettercorp/node-netflowv9');
 
     Collector(function(flow) {
         console.log(flow);
-    }).listen(3000);
+    }).listen(2055);
 
 or you can use it as event provider:
 
-    Collector({port: 3000}).on('data',function(flow) {
+    Collector({port: 2055}).on('data',function(flow) {
         console.log(flow);
     });
 
@@ -68,7 +67,7 @@ There will be one callback for each packet, which may contain more than one flow
 
 Additionally, you can use the collector to listen for template updates:
 
-    var collector = Collector({port: 3000});
+    var collector = Collector({port: 2055});
     collector.on('data', function(data) {
         console.log(data);
     });
@@ -78,11 +77,11 @@ Additionally, you can use the collector to listen for template updates:
 
 You can also access a NetFlow decode function directly. Do something like this:
 
-    var netflowPktDecoder = require('node-netflowv9').nfPktDecode;
+    var netflowPktDecoder = require('@bettercorp/node-netflowv9').nfPktDecode;
     ....
     console.log(netflowPktDecoder(buffer))
 
-Currently we support netflow version 1, 5, 7 and 9.
+Currently we support netflow version 9 - 1, 5, 7 and IPFIX have been removed.
 
 ## Options
 
@@ -92,7 +91,7 @@ The following options are available during initialization:
 
 **port** - defines the port where our collector will listen to.
 
-    Collector({ port: 5000, cb: function (flow) { console.log(flow) } })
+    Collector({ port: 2055, cb: function (flow) { console.log(flow) } })
 
 If no port is provided, then the underlying socket will not be initialized (bind to a port) until you call listen method with a port as a parameter:
 
@@ -100,27 +99,27 @@ If no port is provided, then the underlying socket will not be initialized (bind
 
 **host** - binds to a particular host on the local interfaces.
 
-    Collector({ port: 5000, host: '0.0.0.0', cb: function (flow) { console.log(flow) } })
+    Collector({ port: 2055, host: '0.0.0.0', cb: function (flow) { console.log(flow) } })
 
 **templates** - provides the default templates to be used for incoming traffic
 
-    Collector({ port: 5000, templates: { '127.0.0.1:5323': { '235': { len: 344, ...
+    Collector({ port: 2055, templates: { '127.0.0.1:5323': { '235': { len: 344, ...
 
 **cb** - defines a callback function to be executed for every flow. If no call back function is provided, then the collector fires 'data' event for each received flow
 
-    Collector({ cb: function (flow) { console.log(flow) } }).listen(5000)
+    Collector({ cb: function (flow) { console.log(flow) } }).listen(2055)
 
 **templateCb** - defines a callback function to be executed for templates. If no call back function is provided, then the collector fires 'template' event for the received templates.
 
-    Collector({ templateCb: function(data) { console.log(data) } }).listen(5000);
+    Collector({ templateCb: function(data) { console.log(data) } }).listen(2055);
 
 **ipv4num** - defines that we want to receive the IPv4 ip address as a number, instead of decoded in a readable dot format
 
-    Collector({ ipv4num: true, cb: function (flow) { console.log(flow) } }).listen(5000)
+    Collector({ ipv4num: true, cb: function (flow) { console.log(flow) } }).listen(2055)
 
 **socketType** - defines to what socket type we will bind to. Default is udp4. You can change it to udp6 is you like.
 
-    Collector({ socketType: 'udp6', cb: function (flow) { console.log(flow) } }).listen(5000)
+    Collector({ socketType: 'udp6', cb: function (flow) { console.log(flow) } }).listen(2055)
 
 **nfTypes** - defines your own decoders to NetFlow v9+ types
 
@@ -197,7 +196,7 @@ Lets assume you want to write you own code for decoding a NetFlow type, lets say
 You can write a code like this:
 
     Collector({
-       port: 5000,
+       port: 2055,
        nfTypes: {
           4444: {   // 4444 is the NetFlow Type ID which decoding we want to replace
              name: 'my_vendor_type4444', // This will be the property name, that will contain the decoded value, it will be also the value of the $name
@@ -226,7 +225,7 @@ The following example defines a decoding for a netflow type 6789 that carry a st
           console.log(flow)
     });
 
-    colObj.listen(5000);
+    colObj.listen(2055);
 
     colObj.nfTypes[6789] = {
         name: 'vendor_string',
@@ -244,7 +243,7 @@ You could also overwrite the default property names where the decoded data is wr
     var colObj = Collector(function (flow) {
           console.log(flow)
     });
-    colObj.listen(5000);
+    colObj.listen(2055);
 
     colObj.nfTypes[14].name = 'outputInterface';
     colObj.nfTypes[10].name = 'inputInterface';
@@ -260,7 +259,7 @@ The following example show you how:
     var Collector = require('node-netflowv9');
     Collector(function(flow) {
         console.log(flow);
-    }).listen(5555);
+    }).listen(2055);
 
 ## Proxy
 
@@ -269,31 +268,31 @@ The netflow module allows being configured as proxy and to resend the netflow pa
 You can do that by using the proxy option in the configurations. For example:
 
     require('debug').enable('NetFlowV9');
-    var Collector = require('node-netflowv9');
+    var Collector = require('@bettercorp/node-netflowv9');
     Collector({
         proxy: "127.0.0.1:55555", // It could be as well array or object if you need multiple destinations
         cb: function(flow) {
             console.log(flow);
         }
-    }).listen(5555);
+    }).listen(2055);
 
 In the example above every netflow packet received at port 5555 will be resent as well to 127.0.0.1:55555
 
 The examples bellow resends the packets to multiple destinations:
 
     require('debug').enable('NetFlowV9');
-    var Collector = require('node-netflowv9');
+    var Collector = require('@bettercorp/node-netflowv9');
     Collector({
         proxy: [ "127.0.0.1:55555","5.5.5.5:5566" ],
         cb: function(flow) {
             console.log(flow);
         }
-    }).listen(5555);
+    }).listen(2055);
 
 Another example with multiple destinations:
 
     require('debug').enable('NetFlowV9');
-    var Collector = require('node-netflowv9');
+    var Collector = require('@bettercorp/node-netflowv9');
     Collector({
         proxy: {
           "target1": "127.0.0.1:55555",
@@ -302,7 +301,7 @@ Another example with multiple destinations:
         cb: function(flow) {
             console.log(flow);
         }
-    }).listen(5555);
+    }).listen(2055);
 
 
 
@@ -311,7 +310,7 @@ Another example with multiple destinations:
 The module allows you to define multiple collectors at the same time.
 For example:
 
-    var Collector = require('node-netflowv9');
+    var Collector = require('@bettercorp/node-netflowv9');
 
     Collector(function(flow) { // Collector 1 listening on port 5555
         console.log(flow);
