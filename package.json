@@ -25,9 +25,8 @@
   },
   "dependencies": {
     "asynchronous-emitter": "^0.1.0",
-    "clone": "^1.0.4",
     "debug": "^4.1.0",
-    "highwayhash": "^2.5.0"
+    "highwayhash": "^3.1.1"
   },
   "homepage": "https://github.com/BetterCorp/node-netflowv9",
   "devDependencies": {
