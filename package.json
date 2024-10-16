@@ -24,7 +24,7 @@
     "url": "https://github.com/BetterCorp/node-netflowv9/issues"
   },
   "dependencies": {
-    "asynchronous-emitter": "^0.1.0",
+    "asynchronous-emitter": "^0.1.2",
     "debug": "^4.1.0",
     "highwayhash": "^3.1.1"
   },
